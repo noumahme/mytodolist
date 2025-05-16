@@ -1,17 +1,17 @@
 import { useContext, useState } from "react";
-import { TodoContext } from "../TodoList/TodoList";
+import { TodoContext } from "../../Context/TodoContext";
 import { ItemContext } from "../CompletedTasks/CompletedTasks";
 
 function TodoItem() {
-  const { Todos, handleToggle, handleDelete, handleEdit } =
-    useContext(TodoContext);
+  //const { toggle_todo, handleDelete, handleEdit } = useContext(TodoContext);
+  const { state, dispatch } = useContext(TodoContext);
   const todo = useContext(ItemContext);
   const [isEditing, setisEditing] = useState(false);
   const [editText, seteditText] = useState(todo.text);
 
   function handleSave() {
     if (editText.trim() === "") return;
-    handleEdit(todo.id, editText);
+    dispatch({ type: "edit_todo", payload: { id: todo.id, text: editText } });
     setisEditing(false);
   }
   return (
@@ -30,9 +30,21 @@ function TodoItem() {
       ) : (
         <>
           <span>{todo.text}</span>
-          <button onClick={() => handleDelete(todo.id)}>Delete</button>
+          <button
+            onClick={(id) =>
+              dispatch({ type: "delete_todo", payload: todo.id })
+            }
+          >
+            Delete
+          </button>
           <button onClick={() => setisEditing(true)}>Edit</button>
-          <button onClick={() => handleToggle(todo.id)}>Toggle</button>
+          <button
+            onClick={(id) =>
+              dispatch({ type: "toggle_todo", payload: todo.id })
+            }
+          >
+            Toggle
+          </button>
         </>
       )}
     </li>
