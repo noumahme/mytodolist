@@ -1,7 +1,13 @@
 .App {
   text-align: center;
 }
-
+.input_button {
+  display: flex;
+  justify-content: center;
+}
+input {
+  font-size: 20px;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
